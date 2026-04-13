@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>素材进度管理系统</title>
+    <title>大话西游素材进度管理系统</title>
     <style>
         * {
             margin: 0;
@@ -18,117 +18,242 @@
             --success: #4caf50;
             --danger: #f44336;
             --warning: #ff9800;
+            --info: #2196f3;
+            --purple: #9c27b0;
+            --s-rank: #ff6b6b;
+            --a-rank: #4ecdc4;
+            --b-rank: #95e1d3;
             --gray-50: #f8f9fa;
+            --gray-100: #f0f0f0;
             --gray-200: #e9ecef;
             --gray-300: #dee2e6;
+            --gray-400: #ced4da;
+            --gray-500: #adb5bd;
             --gray-600: #6c757d;
+            --gray-700: #495057;
+            --gray-800: #343a40;
             --gray-900: #212529;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.15);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.18);
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             min-height: 100vh;
             padding: 20px;
+            color: var(--gray-900);
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
             overflow: hidden;
         }
 
-        /* 头部 */
+        /* ==================== 头部 ==================== */
         .header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            padding: 20px 30px;
+            padding: 25px 35px;
             color: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 25px;
         }
 
         .logo {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .year-badge {
+            background: rgba(255,255,255,0.25);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .header-right {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .sync-status {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .sync-indicator {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.85); }
         }
 
         .header-btn {
             background: rgba(255,255,255,0.2);
             color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 9px 18px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 13px;
+            font-weight: 500;
             transition: all 0.3s;
+            backdrop-filter: blur(10px);
         }
 
         .header-btn:hover {
             background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
         }
 
-        /* 导航栏 */
+        /* ==================== 导航栏 ==================== */
         .navbar {
             background: var(--gray-50);
-            padding: 15px 30px;
+            padding: 18px 35px;
             display: flex;
-            gap: 10px;
-            border-bottom: 1px solid var(--gray-300);
+            gap: 12px;
+            border-bottom: 2px solid var(--gray-200);
             overflow-x: auto;
+            scrollbar-width: thin;
+        }
+
+        .navbar::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .navbar::-webkit-scrollbar-thumb {
+            background: var(--gray-400);
+            border-radius: 3px;
         }
 
         .nav-btn {
             background: white;
-            color: var(--gray-600);
+            color: var(--gray-700);
             border: 1px solid var(--gray-300);
-            padding: 8px 16px;
-            border-radius: 6px;
+            padding: 10px 20px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 14px;
+            font-weight: 500;
             white-space: nowrap;
             transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .nav-btn:hover {
             border-color: var(--primary);
             color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
         }
 
         .nav-btn.active {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
+            box-shadow: var(--shadow-sm);
         }
 
-        /* 页面 */
+        .nav-btn-icon {
+            font-size: 16px;
+        }
+
+        /* ==================== 页面容器 ==================== */
         .page {
             display: none;
-            padding: 30px;
+            padding: 35px;
         }
 
         .page.active {
             display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-header {
+            margin-bottom: 30px;
         }
 
         .page-title {
-            font-size: 22px;
+            font-size: 26px;
             font-weight: 700;
-            margin-bottom: 20px;
             color: var(--gray-900);
+            margin-bottom: 8px;
         }
 
-        /* 工具栏 */
+        .page-desc {
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+
+        /* ==================== 工具栏 ==================== */
         .toolbar {
             background: var(--gray-50);
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
+            padding: 22px;
+            border-radius: 10px;
+            margin-bottom: 28px;
             display: flex;
-            gap: 15px;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 18px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .toolbar-left {
+            display: flex;
+            gap: 18px;
             flex-wrap: wrap;
             align-items: center;
         }
@@ -136,26 +261,28 @@
         .toolbar-group {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         .toolbar-label {
             font-size: 13px;
             font-weight: 600;
-            color: var(--gray-600);
+            color: var(--gray-700);
+            white-space: nowrap;
         }
 
-        select, input[type="date"], input[type="text"] {
-            padding: 8px 12px;
-            border: 1px solid var(--gray-300);
-            border-radius: 6px;
-            font-size: 13px;
+        .view-toggle {
+            display: flex;
+            gap: 6px;
             background: white;
+            padding: 5px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
         }
 
-        .btn {
-            background: var(--primary);
-            color: white;
+        .view-toggle-btn {
+            background: transparent;
+            color: var(--gray-600);
             border: none;
             padding: 8px 16px;
             border-radius: 6px;
@@ -163,96 +290,313 @@
             font-size: 13px;
             font-weight: 500;
             transition: all 0.3s;
-        }
-
-        .btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
-        }
-
-        .btn-success { background: var(--success); }
-        .btn-danger { background: var(--danger); }
-
-        /* 视图切换 */
-        .view-toggle {
             display: flex;
-            gap: 5px;
-            background: white;
-            padding: 4px;
-            border-radius: 8px;
+            align-items: center;
+            gap: 6px;
         }
 
-        .view-toggle-btn {
-            background: transparent;
-            color: var(--gray-600);
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 13px;
-            transition: all 0.3s;
+        .view-toggle-btn:hover {
+            background: var(--gray-100);
         }
 
         .view-toggle-btn.active {
             background: var(--primary);
             color: white;
+            box-shadow: var(--shadow-sm);
         }
 
-        /* 统计卡片 */
+        select, input[type="date"], input[type="text"], input[type="number"], input[type="month"] {
+            padding: 9px 14px;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            font-size: 13px;
+            background: white;
+            transition: all 0.3s;
+            min-width: 160px;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-success { background: var(--success); }
+        .btn-success:hover { background: #45a049; }
+        .btn-danger { background: var(--danger); }
+        .btn-danger:hover { background: #da190b; }
+        .btn-warning { background: var(--warning); }
+        .btn-warning:hover { background: #e68900; }
+        .btn-secondary { background: var(--gray-500); }
+        .btn-secondary:hover { background: var(--gray-600); }
+
+        .btn-small {
+            padding: 7px 14px;
+            font-size: 12px;
+        }
+
+        .btn-icon {
+            padding: 8px 12px;
+            min-width: auto;
+        }
+
+        /* ==================== 统计卡片 ==================== */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 22px;
+            margin-bottom: 32px;
         }
 
         .stat-card {
             background: white;
             border: 1px solid var(--gray-200);
-            border-radius: 10px;
-            padding: 20px;
-            cursor: pointer;
+            border-radius: 12px;
+            padding: 24px;
             transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            transform: scaleY(0);
+            transition: transform 0.3s;
         }
 
         .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
         }
+
+        .stat-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .stat-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 18px;
+        }
+
+        .stat-card-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+        }
+
+        .icon-primary { background: rgba(102,126,234,0.12); color: var(--primary); }
+        .icon-success { background: rgba(76,175,80,0.12); color: var(--success); }
+        .icon-warning { background: rgba(255,152,0,0.12); color: var(--warning); }
+        .icon-danger { background: rgba(244,67,54,0.12); color: var(--danger); }
+        .icon-info { background: rgba(33,150,243,0.12); color: var(--info); }
 
         .stat-card-title {
             font-size: 13px;
             color: var(--gray-600);
-            margin-bottom: 10px;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
 
         .stat-card-value {
-            font-size: 36px;
+            font-size: 38px;
             font-weight: 700;
             color: var(--gray-900);
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            line-height: 1;
         }
 
-        /* 卡片网格 */
+        .stat-card-desc {
+            font-size: 12px;
+            color: var(--gray-500);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .stat-trend {
+            font-weight: 600;
+        }
+
+        .stat-trend.up { color: var(--success); }
+        .stat-trend.down { color: var(--danger); }
+
+        .stat-card-progress {
+            margin-top: 14px;
+            height: 6px;
+            background: var(--gray-200);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .stat-card-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+            transition: width 0.6s ease;
+        }
+
+        /* ==================== 版本定级标签 ==================== */
+        .rank-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .rank-s {
+            background: rgba(255,107,107,0.15);
+            color: #d63031;
+            border: 1px solid rgba(255,107,107,0.3);
+        }
+
+        .rank-a {
+            background: rgba(78,205,196,0.15);
+            color: #00b894;
+            border: 1px solid rgba(78,205,196,0.3);
+        }
+
+        .rank-b {
+            background: rgba(149,225,211,0.15);
+            color: #00cec9;
+            border: 1px solid rgba(149,225,211,0.3);
+        }
+
+        /* ==================== 卡片视图 ==================== */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 24px;
         }
 
-        .material-card {
+        .version-card {
             background: white;
-            border: 1px solid var(--gray-200);
-            border-radius: 8px;
-            padding: 20px;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            overflow: hidden;
             transition: all 0.3s;
+            cursor: pointer;
         }
 
-        .material-card:hover {
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        .version-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
         }
 
-        /* 列表视图 */
+        .version-card-header {
+            padding: 20px;
+            background: linear-gradient(135deg, var(--gray-50) 0%, white 100%);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .version-card-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+
+        .version-card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--gray-900);
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .version-card-date {
+            font-size: 13px;
+            color: var(--primary);
+            font-weight: 600;
+            white-space: nowrap;
+            background: rgba(102,126,234,0.1);
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        .version-card-meta {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .version-card-body {
+            padding: 20px;
+        }
+
+        .version-card-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .version-card-row:last-child {
+            border-bottom: none;
+        }
+
+        .version-card-label {
+            font-size: 12px;
+            color: var(--gray-600);
+            font-weight: 600;
+        }
+
+        .version-card-value {
+            font-size: 13px;
+            color: var(--gray-900);
+            font-weight: 500;
+        }
+
+        .version-card-footer {
+            padding: 16px 20px;
+            background: var(--gray-50);
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        /* ==================== 列表视图 ==================== */
         .list-view {
             display: none;
         }
@@ -261,33 +605,88 @@
             display: block;
         }
 
-        .material-list-item {
+        .version-list-item {
             background: white;
             border: 1px solid var(--gray-200);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 10px;
+            border-radius: 10px;
+            padding: 18px 22px;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .version-list-item:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary);
+        }
+
+        .version-list-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.3s;
+            margin-bottom: 14px;
+            gap: 20px;
         }
 
-        .material-list-item:hover {
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        .version-list-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--gray-900);
+            flex: 1;
         }
 
-        /* 甘特图 */
+        .version-list-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .version-list-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .version-list-meta-label {
+            font-size: 12px;
+            color: var(--gray-600);
+            font-weight: 600;
+        }
+
+        .version-list-meta-value {
+            font-size: 13px;
+            color: var(--gray-900);
+            font-weight: 500;
+        }
+
+        /* ==================== 甘特图 ==================== */
         .gantt-wrapper {
             background: white;
             border: 1px solid var(--gray-200);
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .gantt-header {
+            padding: 20px;
+            background: var(--gray-50);
+            border-bottom: 2px solid var(--gray-300);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .gantt-header-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--gray-900);
         }
 
         .gantt-container {
             overflow-x: auto;
-            max-height: 600px;
+            overflow-y: auto;
+            max-height: 650px;
         }
 
         .gantt-table {
@@ -298,24 +697,115 @@
 
         .gantt-table th {
             background: var(--gray-50);
-            padding: 12px;
+            padding: 14px 12px;
             text-align: left;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 12px;
+            color: var(--gray-700);
             border-bottom: 2px solid var(--gray-300);
             position: sticky;
             top: 0;
+            z-index: 10;
+            white-space: nowrap;
         }
 
         .gantt-table td {
-            padding: 10px;
+            padding: 12px;
             border-bottom: 1px solid var(--gray-200);
+            vertical-align: middle;
         }
 
         .gantt-table tr:hover {
             background: var(--gray-50);
         }
 
-        /* 模态框 */
+        .gantt-version-name {
+            font-weight: 600;
+            color: var(--gray-900);
+            min-width: 220px;
+        }
+
+        .gantt-timeline {
+            min-width: 900px;
+            position: relative;
+            padding: 8px 0;
+        }
+
+        .progress-bar-wrapper {
+            position: relative;
+            height: 36px;
+            background: var(--gray-100);
+            border-radius: 8px;
+            overflow: visible;
+        }
+
+        .progress-bar {
+            position: absolute;
+            height: 100%;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: visible;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .progress-bar:hover {
+            filter: brightness(1.15);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            z-index: 5;
+        }
+
+        .progress-bar-s {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+        }
+
+        .progress-bar-a {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a8a0 100%);
+        }
+
+        .progress-bar-b {
+            background: linear-gradient(135deg, #95e1d3 0%, #80cfc2 100%);
+        }
+
+        /* ==================== 素材进度指示器 ==================== */
+        .material-progress {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .material-progress-bar {
+            flex: 1;
+            height: 8px;
+            background: var(--gray-200);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .material-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), #66bb6a);
+            border-radius: 4px;
+            transition: width 0.4s ease;
+        }
+
+        .material-progress-text {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--gray-700);
+            min-width: 50px;
+            text-align: right;
+        }
+
+        /* ==================== 模态框 ==================== */
         .modal {
             display: none;
             position: fixed;
@@ -323,82 +813,284 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
+            background: rgba(0,0,0,0.6);
+            z-index: 2000;
             align-items: center;
             justify-content: center;
+            backdrop-filter: blur(4px);
         }
 
         .modal.active {
             display: flex;
+            animation: fadeIn 0.3s;
         }
 
         .modal-content {
             background: white;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 90vh;
+            border-radius: 12px;
+            width: 95%;
+            max-width: 900px;
+            max-height: 92vh;
             overflow-y: auto;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.3s;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--gray-200);
+            padding: 24px 28px;
+            border-bottom: 2px solid var(--gray-200);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: var(--gray-50);
         }
 
         .modal-title {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
+            color: var(--gray-900);
         }
 
         .modal-close {
             background: none;
             border: none;
-            font-size: 24px;
+            font-size: 28px;
             cursor: pointer;
-            color: var(--gray-600);
+            color: var(--gray-500);
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: var(--gray-200);
+            color: var(--gray-900);
         }
 
         .modal-body {
-            padding: 20px;
+            padding: 28px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group-full {
+            grid-column: 1 / -1;
         }
 
         .form-label {
             display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+        }
+
+        .form-label-required::after {
+            content: '*';
+            color: var(--danger);
+            margin-left: 4px;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .modal-footer {
+            padding: 20px 28px;
+            border-top: 1px solid var(--gray-200);
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            background: var(--gray-50);
+        }
+
+        /* ==================== 素材类型网格 ==================== */
+        .material-types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .material-type-item {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .material-type-item:hover {
+            background: rgba(102,126,234,0.05);
+            border-color: var(--primary);
+        }
+
+        .material-type-item.selected {
+            background: rgba(102,126,234,0.1);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .material-type-name {
             font-size: 13px;
             font-weight: 600;
             color: var(--gray-900);
             margin-bottom: 6px;
         }
 
-        .form-input, .form-select, .form-textarea {
-            width: 100%;
-            padding: 8px 12px;
+        .material-type-count {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .material-type-count input {
+            width: 60px;
+            padding: 6px 8px;
             border: 1px solid var(--gray-300);
             border-radius: 6px;
-            font-size: 13px;
+            font-size: 12px;
         }
 
-        .form-textarea {
-            resize: vertical;
-            min-height: 80px;
+        .material-type-count-label {
+            font-size: 11px;
+            color: var(--gray-600);
         }
 
-        .modal-footer {
-            padding: 20px;
-            border-top: 1px solid var(--gray-200);
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
+        /* ==================== 预设模板 ==================== */
+        .template-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .template-item {
+            background: white;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .template-item:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .template-item.selected {
+            background: rgba(102,126,234,0.08);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .template-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 10px;
+        }
+
+        .template-desc {
+            font-size: 12px;
+            color: var(--gray-600);
+            margin-bottom: 10px;
+        }
+
+        .template-materials {
+            font-size: 11px;
+            color: var(--gray-500);
+        }
+
+        /* ==================== 响应式 ==================== */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                border-radius: 8px;
+            }
+
+            .header {
+                padding: 18px 20px;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .navbar {
+                padding: 12px 20px;
+            }
+
+            .page {
+                padding: 20px;
+            }
+
+            .toolbar {
+                padding: 16px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .modal-content {
+                width: 98%;
+                max-height: 95vh;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -406,372 +1098,1207 @@
     <div class="container">
         <!-- 头部 -->
         <div class="header">
-            <div class="logo">📊 素材进度管理系统</div>
-            <button class="header-btn" onclick="showTemplateModal()">📋 模板管理</button>
+            <div class="header-left">
+                <div class="logo">
+                    <div class="logo-icon">📊</div>
+                    大话西游素材进度管理
+                </div>
+                <div class="year-badge">2026-2027</div>
+            </div>
+            <div class="header-right">
+                <div class="sync-status">
+                    <div class="sync-indicator"></div>
+                    实时同步
+                </div>
+                <button class="header-btn" onclick="exportData()">📥 导出数据</button>
+                <button class="header-btn" onclick="openSettings()">⚙️ 设置</button>
+            </div>
         </div>
 
         <!-- 导航栏 -->
         <div class="navbar">
-            <button class="nav-btn active" onclick="switchPage('overview')">📊 素材总览</button>
-            <button class="nav-btn" onclick="switchPage('types')">🎯 素材类型</button>
-            <button class="nav-btn" onclick="switchPage('list')">📋 素材列表</button>
-            <button class="nav-btn" onclick="switchPage('dashboard')">📌 综合看板</button>
-            <button class="nav-btn" onclick="switchPage('responsibility')">👥 责任面板</button>
-            <button class="nav-btn" onclick="switchPage('versions')">📅 版本管理</button>
+            <button class="nav-btn active" onclick="switchPage('overview')">
+                <span class="nav-btn-icon">📈</span>
+                素材总览
+            </button>
+            <button class="nav-btn" onclick="switchPage('timeline')">
+                <span class="nav-btn-icon">📅</span>
+                时间线看板
+            </button>
+            <button class="nav-btn" onclick="switchPage('versions')">
+                <span class="nav-btn-icon">📦</span>
+                版本管理
+            </button>
+            <button class="nav-btn" onclick="switchPage('materials')">
+                <span class="nav-btn-icon">🎨</span>
+                素材库
+            </button>
+            <button class="nav-btn" onclick="switchPage('templates')">
+                <span class="nav-btn-icon">📋</span>
+                预设模板
+            </button>
+            <button class="nav-btn" onclick="switchPage('team')">
+                <span class="nav-btn-icon">👥</span>
+                团队协作
+            </button>
         </div>
 
         <!-- 素材总览页 -->
-        <div id="overview" class="page active">
-            <h2 class="page-title">素材总览</h2>
-            
+        <div id="overview-page" class="page active">
+            <div class="page-header">
+                <div class="page-title">📊 素材总览 - 2026-2027</div>
+                <div class="page-desc">全年版本素材进度一览 | 实时更新 | 多维度筛选</div>
+            </div>
+
             <!-- 工具栏 -->
             <div class="toolbar">
-                <div class="toolbar-group">
-                    <span class="toolbar-label">版本筛选：</span>
-                    <select id="versionFilter">
-                        <option value="all">全部版本</option>
-                    </select>
+                <div class="toolbar-left">
+                    <div class="toolbar-group">
+                        <span class="toolbar-label">📅 时间筛选</span>
+                        <select id="timeFilter" onchange="filterData()">
+                            <option value="all">全部</option>
+                            <option value="2026-Q1">2026 Q1</option>
+                            <option value="2026-Q2">2026 Q2</option>
+                            <option value="2026-Q3">2026 Q3</option>
+                            <option value="2026-Q4">2026 Q4</option>
+                            <option value="2027-Q1">2027 Q1</option>
+                        </select>
+                    </div>
+
+                    <div class="toolbar-group">
+                        <span class="toolbar-label">⭐ 定级筛选</span>
+                        <select id="rankFilter" onchange="filterData()">
+                            <option value="all">全部</option>
+                            <option value="S">S级</option>
+                            <option value="A">A级</option>
+                            <option value="B">B级</option>
+                        </select>
+                    </div>
+
+                    <div class="toolbar-group">
+                        <span class="toolbar-label">📊 状态筛选</span>
+                        <select id="statusFilter" onchange="filterData()">
+                            <option value="all">全部</option>
+                            <option value="planning">策划中</option>
+                            <option value="production">制作中</option>
+                            <option value="review">审核中</option>
+                            <option value="completed">已完成</option>
+                        </select>
+                    </div>
+
+                    <div class="toolbar-group">
+                        <span class="toolbar-label">🔍 搜索</span>
+                        <input type="text" id="searchInput" placeholder="搜索版本名称..." onkeyup="filterData()">
+                    </div>
                 </div>
-                <div class="toolbar-group">
-                    <span class="toolbar-label">时间范围：</span>
-                    <input type="date" id="startDate">
-                    <span>至</span>
-                    <input type="date" id="endDate">
+
+                <div class="view-toggle">
+                    <button class="view-toggle-btn active" onclick="switchView('card')">🎴 卡片</button>
+                    <button class="view-toggle-btn" onclick="switchView('list')">📋 列表</button>
+                    <button class="view-toggle-btn" onclick="switchView('gantt')">📊 甘特图</button>
                 </div>
-                <button class="btn btn-success" onclick="showAddMaterialModal()">➕ 新建素材</button>
             </div>
 
             <!-- 统计卡片 -->
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-card-title">总素材数</div>
-                    <div class="stat-card-value">0</div>
+                    <div class="stat-card-header">
+                        <div>
+                            <div class="stat-card-title">总版本数</div>
+                            <div class="stat-card-value">26</div>
+                            <div class="stat-card-desc">
+                                <span class="stat-trend up">↑ 5</span>
+                                较去年增长
+                            </div>
+                        </div>
+                        <div class="stat-card-icon icon-primary">📦</div>
+                    </div>
+                    <div class="stat-card-progress">
+                        <div class="stat-card-progress-bar" style="width: 100%"></div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-card-title">进行中</div>
-                    <div class="stat-card-value">0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-card-title">已完成</div>
-                    <div class="stat-card-value">0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-card-title">未开始</div>
-                    <div class="stat-card-value">0</div>
-                </div>
-            </div>
 
-            <!-- 甘特图 -->
-            <div class="gantt-wrapper">
-                <div class="gantt-container">
-                    <table class="gantt-table">
-                        <thead>
-                            <tr>
-                                <th>素材名称</th>
-                                <th>版本</th>
-                                <th>类型</th>
-                                <th>负责人</th>
-                                <th>状态</th>
-                                <th>时间线</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody id="ganttBody">
-                            <tr>
-                                <td colspan="7" style="text-align: center; padding: 40px; color: #999;">
-                                    暂无数据，请点击"新建素材"添加
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <div class="stat-card-title">S级版本</div>
+                            <div class="stat-card-value">8</div>
+                            <div class="stat-card-desc">
+                                核心重点项目
+                            </div>
+                        </div>
+                        <div class="stat-card-icon icon-danger">⭐</div>
+                    </div>
+                    <div class="stat-card-progress">
+                        <div class="stat-card-progress-bar" style="width: 31%"></div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- 素材类型页 -->
-        <div id="types" class="page">
-            <h2 class="page-title">素材类型管理</h2>
-            <div class="toolbar">
-                <button class="btn btn-success" onclick="showAddTypeModal()">➕ 新建类型</button>
-            </div>
-            <div class="cards-grid" id="typesGrid">
-                <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #999;">
-                    暂无类型，请点击"新建类型"添加
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <div class="stat-card-title">A级版本</div>
+                            <div class="stat-card-value">12</div>
+                            <div class="stat-card-desc">
+                                重要活动项目
+                            </div>
+                        </div>
+                        <div class="stat-card-icon icon-success">✨</div>
+                    </div>
+                    <div class="stat-card-progress">
+                        <div class="stat-card-progress-bar" style="width: 46%"></div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- 素材列表页 -->
-        <div id="list" class="page">
-            <h2 class="page-title">素材列表</h2>
-            
-            <!-- 工具栏 -->
-            <div class="toolbar">
-                <div class="toolbar-group">
-                    <span class="toolbar-label">状态筛选：</span>
-                    <select id="statusFilter">
-                        <option value="all">全部状态</option>
-                        <option value="未开始">未开始</option>
-                        <option value="进行中">进行中</option>
-                        <option value="已完成">已完成</option>
-                    </select>
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <div class="stat-card-title">B级版本</div>
+                            <div class="stat-card-value">6</div>
+                            <div class="stat-card-desc">
+                                常规活动项目
+                            </div>
+                        </div>
+                        <div class="stat-card-icon icon-info">💫</div>
+                    </div>
+                    <div class="stat-card-progress">
+                        <div class="stat-card-progress-bar" style="width: 23%"></div>
+                    </div>
                 </div>
-                <div class="view-toggle">
-                    <button class="view-toggle-btn active" onclick="switchView('card')">🔲 卡片</button>
-                    <button class="view-toggle-btn" onclick="switchView('list')">📋 列表</button>
+
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <div class="stat-card-title">素材总数</div>
+                            <div class="stat-card-value">1,247</div>
+                            <div class="stat-card-desc">
+                                <span class="stat-trend up">↑ 15%</span>
+                                已完成 836
+                            </div>
+                        </div>
+                        <div class="stat-card-icon icon-warning">🎨</div>
+                    </div>
+                    <div class="stat-card-progress">
+                        <div class="stat-card-progress-bar" style="width: 67%"></div>
+                    </div>
                 </div>
-                <button class="btn btn-success" onclick="showAddMaterialModal()">➕ 新建素材</button>
+
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <div class="stat-card-title">整体进度</div>
+                            <div class="stat-card-value">67%</div>
+                            <div class="stat-card-desc">
+                                预计按时完成
+                            </div>
+                        </div>
+                        <div class="stat-card-icon icon-success">📈</div>
+                    </div>
+                    <div class="stat-card-progress">
+                        <div class="stat-card-progress-bar" style="width: 67%"></div>
+                    </div>
+                </div>
             </div>
 
             <!-- 卡片视图 -->
-            <div id="cardView" class="cards-grid">
-                <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #999;">
-                    暂无素材
-                </div>
-            </div>
+            <div id="card-view" class="cards-grid"></div>
 
             <!-- 列表视图 -->
-            <div id="listView" class="list-view">
-                <div style="text-align: center; padding: 40px; color: #999;">
-                    暂无素材
+            <div id="list-view" class="list-view"></div>
+
+            <!-- 甘特图视图 -->
+            <div id="gantt-view" class="gantt-wrapper" style="display: none;">
+                <div class="gantt-header">
+                    <div class="gantt-header-title">📊 全年素材进度甘特图</div>
+                    <div>
+                        <button class="btn btn-small" onclick="zoomGantt('in')">🔍 放大</button>
+                        <button class="btn btn-small btn-secondary" onclick="zoomGantt('out')">🔍 缩小</button>
+                    </div>
+                </div>
+                <div class="gantt-container">
+                    <table class="gantt-table" id="gantt-table"></table>
                 </div>
             </div>
         </div>
 
-        <!-- 其他页面占位 -->
-        <div id="dashboard" class="page">
-            <h2 class="page-title">综合看板</h2>
-            <p style="text-align: center; padding: 40px; color: #999;">功能开发中...</p>
+        <!-- 版本管理页 -->
+        <div id="versions-page" class="page">
+            <div class="page-header">
+                <div class="page-title">📦 版本管理</div>
+                <div class="page-desc">管理所有游戏版本及其素材需求</div>
+            </div>
+
+            <div class="toolbar">
+                <div class="toolbar-left">
+                    <button class="btn btn-success" onclick="openCreateVersionModal()">➕ 新建版本</button>
+                    <button class="btn" onclick="openTemplateModal()">📋 使用模板</button>
+                </div>
+            </div>
+
+            <div id="versions-content"></div>
         </div>
-        <div id="responsibility" class="page">
-            <h2 class="page-title">责任面板</h2>
-            <p style="text-align: center; padding: 40px; color: #999;">功能开发中...</p>
-        </div>
-        <div id="versions" class="page">
-            <h2 class="page-title">版本管理</h2>
-            <p style="text-align: center; padding: 40px; color: #999;">功能开发中...</p>
+
+        <!-- 预设模板页 -->
+        <div id="templates-page" class="page">
+            <div class="page-header">
+                <div class="page-title">📋 预设模板管理</div>
+                <div class="page-desc">管理和编辑素材需求模板</div>
+            </div>
+
+            <div class="toolbar">
+                <div class="toolbar-left">
+                    <button class="btn btn-success" onclick="openCreateTemplateModal()">➕ 新建模板</button>
+                </div>
+            </div>
+
+            <div class="template-list" id="template-list"></div>
         </div>
     </div>
 
-    <!-- 新建素材模态框 -->
-    <div id="addMaterialModal" class="modal">
+    <!-- 新建/编辑版本模态框 -->
+    <div id="version-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">新建素材</h3>
-                <button class="modal-close" onclick="closeModal('addMaterialModal')">&times;</button>
+                <div class="modal-title">➕ 新建版本</div>
+                <button class="modal-close" onclick="closeModal('version-modal')">×</button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label">素材名称</label>
-                    <input type="text" class="form-input" id="materialName" placeholder="请输入素材名称">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label form-label-required">版本名称</label>
+                        <input type="text" class="form-input" id="version-name" placeholder="例如：2026春节活动">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label form-label-required">版本定级</label>
+                        <select class="form-select" id="version-rank">
+                            <option value="">请选择</option>
+                            <option value="S">S级 - 核心重点</option>
+                            <option value="A">A级 - 重要项目</option>
+                            <option value="B">B级 - 常规项目</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label form-label-required">上线时间</label>
+                        <input type="date" class="form-input" id="version-date">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">责任营销</label>
+                        <input type="text" class="form-input" id="version-marketing" placeholder="例如：于洋">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">责任策划</label>
+                        <input type="text" class="form-input" id="version-planner" placeholder="例如：周雨东">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">当前状态</label>
+                        <select class="form-select" id="version-status">
+                            <option value="planning">策划中</option>
+                            <option value="production">制作中</option>
+                            <option value="review">审核中</option>
+                            <option value="completed">已完成</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-group-full">
+                        <label class="form-label">版本描述</label>
+                        <textarea class="form-textarea" id="version-desc" placeholder="简要描述版本内容和特点..."></textarea>
+                    </div>
                 </div>
+
                 <div class="form-group">
-                    <label class="form-label">版本</label>
-                    <input type="text" class="form-input" id="materialVersion" placeholder="如：2025年1月">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">类型</label>
-                    <select class="form-select" id="materialType">
-                        <option value="图片">图片</option>
-                        <option value="视频">视频</option>
-                        <option value="网页">网页</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">负责人</label>
-                    <input type="text" class="form-input" id="materialOwner" placeholder="请输入负责人">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">开始日期</label>
-                    <input type="date" class="form-input" id="materialStartDate">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">结束日期</label>
-                    <input type="date" class="form-input" id="materialEndDate">
+                    <label class="form-label">素材需求配置</label>
+                    <div class="material-types-grid" id="material-types"></div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn" onclick="closeModal('addMaterialModal')">取消</button>
-                <button class="btn btn-success" onclick="saveMaterial()">保存</button>
+                <button class="btn btn-secondary" onclick="closeModal('version-modal')">取消</button>
+                <button class="btn btn-success" onclick="saveVersion()">保存版本</button>
             </div>
         </div>
     </div>
 
-    <!-- 模板管理模态框 -->
-    <div id="templateModal" class="modal">
+    <!-- 选择模板模态框 -->
+    <div id="template-select-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">模板管理</h3>
-                <button class="modal-close" onclick="closeModal('templateModal')">&times;</button>
+                <div class="modal-title">📋 选择预设模板</div>
+                <button class="modal-close" onclick="closeModal('template-select-modal')">×</button>
             </div>
             <div class="modal-body">
-                <p style="text-align: center; padding: 40px; color: #999;">模板功能开发中...</p>
+                <div class="template-list" id="template-select-list"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('template-select-modal')">取消</button>
+                <button class="btn btn-success" onclick="applyTemplate()">应用模板</button>
             </div>
         </div>
     </div>
 
     <script>
-        // 全局数据
-        let materials = [];
-        let currentView = 'card';
+        // ==================== 数据模型 ====================
+        const versions = [
+            {
+                id: 1,
+                name: '2026春节（节日活动＆促销）',
+                rank: 'S',
+                rankDetail: 'S-促活付费',
+                marketing: '于洋',
+                planner: '周雨东',
+                date: '2026-02-06',
+                status: 'production',
+                progress: 65,
+                materials: {
+                    '前策': { total: 15, completed: 10 },
+                    '执行': { total: 25, completed: 18 },
+                    '外放': { total: 10, completed: 5 }
+                }
+            },
+            {
+                id: 2,
+                name: '38届群雄（新增交易服＆资格赛）',
+                rank: 'B',
+                rankDetail: 'B',
+                marketing: '罗威',
+                planner: '沈杰',
+                date: '2026-02-28',
+                status: 'planning',
+                progress: 30,
+                materials: {
+                    '前策': { total: 10, completed: 8 },
+                    '执行': { total: 15, completed: 5 },
+                    '外放': { total: 8, completed: 2 }
+                }
+            },
+            {
+                id: 3,
+                name: '马年生肖服',
+                rank: 'A',
+                rankDetail: 'A-新增回流',
+                marketing: '程梦寐',
+                planner: '肖嘉鑫',
+                date: '2026-03-03',
+                status: 'production',
+                progress: 75,
+                materials: {
+                    '前策': { total: 12, completed: 10 },
+                    '执行': { total: 20, completed: 16 },
+                    '外放': { total: 12, completed: 8 }
+                }
+            },
+            {
+                id: 4,
+                name: '女神节（活动＆特卖）',
+                rank: 'A',
+                rankDetail: 'A',
+                marketing: '于洋',
+                planner: '高倩囡、孙骞',
+                date: '2026-03-05',
+                status: 'review',
+                progress: 85,
+                materials: {
+                    '前策': { total: 10, completed: 10 },
+                    '执行': { total: 18, completed: 15 },
+                    '外放': { total: 10, completed: 8 }
+                }
+            },
+            {
+                id: 5,
+                name: '御兽争锋S2调整',
+                rank: 'B',
+                rankDetail: 'B',
+                marketing: '陈晓宇',
+                planner: '徐炤圆',
+                date: '2026-03-11',
+                status: 'planning',
+                progress: 25,
+                materials: {
+                    '前策': { total: 8, completed: 6 },
+                    '执行': { total: 12, completed: 3 },
+                    '外放': { total: 6, completed: 1 }
+                }
+            },
+            {
+                id: 6,
+                name: '春日福利季（回流活动、新服）',
+                rank: 'A',
+                rankDetail: 'A-新增回流',
+                marketing: '陈晓宇',
+                planner: '沈文睿、百战',
+                date: '2026-03-17',
+                status: 'production',
+                progress: 55,
+                materials: {
+                    '前策': { total: 15, completed: 12 },
+                    '执行': { total: 22, completed: 12 },
+                    '外放': { total: 12, completed: 6 }
+                }
+            },
+            {
+                id: 7,
+                name: '召唤兽比斗争霸赛',
+                rank: 'A',
+                rankDetail: 'A',
+                marketing: '罗威',
+                planner: '宁瀚',
+                date: '2026-03-18',
+                status: 'production',
+                progress: 60,
+                materials: {
+                    '前策': { total: 10, completed: 8 },
+                    '执行': { total: 16, completed: 10 },
+                    '外放': { total: 10, completed: 6 }
+                }
+            },
+            {
+                id: 8,
+                name: '2026上半年套装资料片',
+                rank: 'S',
+                rankDetail: 'S-促活付费',
+                marketing: '程梦寐',
+                planner: '柳雨春、程广权、宁瀚等',
+                date: '2026-04-15',
+                status: 'production',
+                progress: 45,
+                materials: {
+                    '前策': { total: 25, completed: 18 },
+                    '执行': { total: 40, completed: 18 },
+                    '外放': { total: 20, completed: 6 }
+                }
+            },
+            {
+                id: 9,
+                name: '五一活动',
+                rank: 'A',
+                rankDetail: 'A',
+                marketing: '于洋',
+                planner: '周轩、张晟林',
+                date: '2026-04-22',
+                status: 'planning',
+                progress: 35,
+                materials: {
+                    '前策': { total: 12, completed: 10 },
+                    '执行': { total: 20, completed: 7 },
+                    '外放': { total: 12, completed: 3 }
+                }
+            },
+            {
+                id: 10,
+                name: '520恋爱主题服',
+                rank: 'A',
+                rankDetail: 'A-新增回流',
+                marketing: '程梦寐',
+                planner: '陈炎',
+                date: '2026-05-19',
+                status: 'planning',
+                progress: 20,
+                materials: {
+                    '前策': { total: 10, completed: 6 },
+                    '执行': { total: 18, completed: 4 },
+                    '外放': { total: 10, completed: 1 }
+                }
+            },
+            {
+                id: 11,
+                name: '520促销+六一活动',
+                rank: 'A',
+                rankDetail: 'A',
+                marketing: '王文闻',
+                planner: '任子彤、胡泽华',
+                date: '2026-05-18',
+                status: 'planning',
+                progress: 15,
+                materials: {
+                    '前策': { total: 12, completed: 5 },
+                    '执行': { total: 20, completed: 3 },
+                    '外放': { total: 12, completed: 1 }
+                }
+            },
+            {
+                id: 12,
+                name: '暑期活动（玩法、促销、养生服）',
+                rank: 'S',
+                rankDetail: 'S-新增回流',
+                marketing: '于洋',
+                planner: '肖嘉鑫、李晶、苏瑾',
+                date: '2026-06-25',
+                status: 'planning',
+                progress: 10,
+                materials: {
+                    '前策': { total: 20, completed: 5 },
+                    '执行': { total: 35, completed: 4 },
+                    '外放': { total: 18, completed: 1 }
+                }
+            },
+            {
+                id: 13,
+                name: '新周末活动',
+                rank: 'A',
+                rankDetail: 'A',
+                marketing: '王文闻',
+                planner: '李剑平、范一鸣、郑邦瑜',
+                date: '2026-07-09',
+                status: 'planning',
+                progress: 8,
+                materials: {
+                    '前策': { total: 10, completed: 3 },
+                    '执行': { total: 16, completed: 1 },
+                    '外放': { total: 10, completed: 0 }
+                }
+            },
+            {
+                id: 14,
+                name: '群雄巅峰赛',
+                rank: 'A',
+                rankDetail: 'A',
+                marketing: '罗威',
+                planner: '沈杰',
+                date: '2026-06-30',
+                status: 'planning',
+                progress: 5,
+                materials: {
+                    '前策': { total: 8, completed: 2 },
+                    '执行': { total: 14, completed: 1 },
+                    '外放': { total: 8, completed: 0 }
+                }
+            },
+            {
+                id: 15,
+                name: '传世时装第二套',
+                rank: 'B',
+                rankDetail: 'B',
+                marketing: '王文闻',
+                planner: '孙骞',
+                date: '2026-06-24',
+                status: 'planning',
+                progress: 12,
+                materials: {
+                    '前策': { total: 6, completed: 3 },
+                    '执行': { total: 10, completed: 1 },
+                    '外放': { total: 6, completed: 0 }
+                }
+            },
+            {
+                id: 16,
+                name: '2026鎏金宝鉴',
+                rank: 'S',
+                rankDetail: 'S-促活付费',
+                marketing: '陈晓宇',
+                planner: '刘洋、芙蓉',
+                date: '2026-07-31',
+                status: 'planning',
+                progress: 5,
+                materials: {
+                    '前策': { total: 18, completed: 2 },
+                    '执行': { total: 30, completed: 2 },
+                    '外放': { total: 15, completed: 0 }
+                }
+            },
+            {
+                id: 17,
+                name: '无差别挑战赛',
+                rank: 'A',
+                rankDetail: 'A',
+                marketing: '罗威',
+                planner: '冯尧成',
+                date: '2026-07-31',
+                status: 'planning',
+                progress: 3,
+                materials: {
+                    '前策': { total: 10, completed: 1 },
+                    '执行': { total: 16, completed: 1 },
+                    '外放': { total: 10, completed: 0 }
+                }
+            },
+            {
+                id: 18,
+                name: '嘉年华（线下+珍稀神兽）',
+                rank: 'S',
+                rankDetail: 'S-促活付费＆回流',
+                marketing: '程梦寐',
+                planner: '周轩、范一鸣、陈炎等',
+                date: '2026-08-31',
+                status: 'planning',
+                progress: 2,
+                materials: {
+                    '前策': { total: 30, completed: 1 },
+                    '执行': { total: 50, completed: 1 },
+                    '外放': { total: 25, completed: 0 }
+                }
+            },
+            {
+                id: 19,
+                name: '七夕（活动＆促销）',
+                rank: 'B',
+                rankDetail: 'B',
+                marketing: '王文闻',
+                planner: '樊志浩、张晟林',
+                date: '2026-08-17',
+                status: 'planning',
+                progress: 0,
+                materials: {
+                    '前策': { total: 8, completed: 0 },
+                    '执行': { total: 14, completed: 0 },
+                    '外放': { total: 8, completed: 0 }
+                }
+            },
+            {
+                id: 20,
+                name: '手游周年庆',
+                rank: 'S',
+                rankDetail: 'S-新增回流',
+                marketing: '于洋',
+                planner: '沈文睿、徐炤圆、任子彤等',
+                date: '2026-09-30',
+                status: 'planning',
+                progress: 0,
+                materials: {
+                    '前策': { total: 25, completed: 0 },
+                    '执行': { total: 45, completed: 0 },
+                    '外放': { total: 22, completed: 0 }
+                }
+            }
+        ];
 
-        // 页面切换
-        function switchPage(pageId) {
-            // 隐藏所有页面
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            // 显示目标页面
-            document.getElementById(pageId).classList.add('active');
-            
+        // 素材类型定义
+        const materialTypes = [
+            { id: 'preplan_doc', name: '前策文档', category: '前策', defaultCount: 3 },
+            { id: 'preplan_design', name: '前策设计稿', category: '前策', defaultCount: 5 },
+            { id: 'ui_design', name: 'UI设计', category: '执行', defaultCount: 8 },
+            { id: 'illustration', name: '插画', category: '执行', defaultCount: 6 },
+            { id: 'animation', name: '动画', category: '执行', defaultCount: 4 },
+            { id: '3d_model', name: '3D模型', category: '执行', defaultCount: 3 },
+            { id: 'video', name: '视频', category: '外放', defaultCount: 2 },
+            { id: 'poster', name: '海报', category: '外放', defaultCount: 4 },
+            { id: 'copywriting', name: '文案', category: '外放', defaultCount: 3 },
+            { id: 'promotion', name: '推广素材', category: '外放', defaultCount: 5 }
+        ];
+
+        // 预设模板
+        const templates = [
+            {
+                id: 1,
+                name: 'S级资料片模板',
+                desc: '适用于大型资料片版本',
+                rank: 'S',
+                materials: {
+                    preplan_doc: 5,
+                    preplan_design: 8,
+                    ui_design: 15,
+                    illustration: 12,
+                    animation: 8,
+                    '3d_model': 6,
+                    video: 4,
+                    poster: 8,
+                    copywriting: 6,
+                    promotion: 10
+                }
+            },
+            {
+                id: 2,
+                name: 'A级活动模板',
+                desc: '适用于重要节日活动',
+                rank: 'A',
+                materials: {
+                    preplan_doc: 3,
+                    preplan_design: 5,
+                    ui_design: 10,
+                    illustration: 8,
+                    animation: 5,
+                    '3d_model': 3,
+                    video: 2,
+                    poster: 6,
+                    copywriting: 4,
+                    promotion: 8
+                }
+            },
+            {
+                id: 3,
+                name: 'B级常规活动模板',
+                desc: '适用于常规活动和赛事',
+                rank: 'B',
+                materials: {
+                    preplan_doc: 2,
+                    preplan_design: 3,
+                    ui_design: 6,
+                    illustration: 4,
+                    animation: 2,
+                    '3d_model': 2,
+                    video: 1,
+                    poster: 4,
+                    copywriting: 3,
+                    promotion: 5
+                }
+            }
+        ];
+
+        // 当前视图模式
+        let currentView = 'card';
+        let currentPage = 'overview';
+        let selectedTemplate = null;
+
+        // ==================== 初始化 ====================
+        window.onload = function() {
+            renderOverview();
+            renderTemplates();
+        };
+
+        // ==================== 页面切换 ====================
+        function switchPage(pageName) {
             // 更新导航按钮状态
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-            event.target.classList.add('active');
-        }
+            event.target.closest('.nav-btn').classList.add('active');
 
-        // 视图切换
-        function switchView(viewType) {
-            currentView = viewType;
-            const cardView = document.getElementById('cardView');
-            const listView = document.getElementById('listView');
-            const toggleBtns = document.querySelectorAll('.view-toggle-btn');
-            
-            if (viewType === 'card') {
-                cardView.style.display = 'grid';
-                listView.classList.remove('active');
-                toggleBtns[0].classList.add('active');
-                toggleBtns[1].classList.remove('active');
-            } else {
-                cardView.style.display = 'none';
-                listView.classList.add('active');
-                toggleBtns[0].classList.remove('active');
-                toggleBtns[1].classList.add('active');
+            // 更新页面显示
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageName + '-page').classList.add('active');
+
+            currentPage = pageName;
+
+            // 根据页面渲染内容
+            if (pageName === 'overview') {
+                renderOverview();
+            } else if (pageName === 'versions') {
+                renderVersionsPage();
+            } else if (pageName === 'templates') {
+                renderTemplates();
             }
         }
 
-        // 显示模态框
-        function showAddMaterialModal() {
-            document.getElementById('addMaterialModal').classList.add('active');
+        // ==================== 视图切换 ====================
+        function switchView(viewType) {
+            // 更新按钮状态
+            document.querySelectorAll('.view-toggle-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            currentView = viewType;
+
+            // 切换视图
+            const cardView = document.getElementById('card-view');
+            const listView = document.getElementById('list-view');
+            const ganttView = document.getElementById('gantt-view');
+
+            if (viewType === 'card') {
+                cardView.style.display = 'grid';
+                listView.style.display = 'none';
+                ganttView.style.display = 'none';
+                renderCardView();
+            } else if (viewType === 'list') {
+                cardView.style.display = 'none';
+                listView.style.display = 'block';
+                ganttView.style.display = 'none';
+                renderListView();
+            } else if (viewType === 'gantt') {
+                cardView.style.display = 'none';
+                listView.style.display = 'none';
+                ganttView.style.display = 'block';
+                renderGanttView();
+            }
         }
 
-        function showTemplateModal() {
-            document.getElementById('templateModal').classList.add('active');
+        // ==================== 渲染总览页 ====================
+        function renderOverview() {
+            renderCardView();
         }
 
-        function showAddTypeModal() {
-            alert('新建类型功能开发中...');
+        // ==================== 渲染卡片视图 ====================
+        function renderCardView() {
+            const container = document.getElementById('card-view');
+            const filteredVersions = getFilteredVersions();
+
+            container.innerHTML = filteredVersions.map(v => `
+                <div class="version-card" onclick="viewVersionDetail(${v.id})">
+                    <div class="version-card-header">
+                        <div class="version-card-title-row">
+                            <div class="version-card-title">${v.name}</div>
+                            <div class="version-card-date">📅 ${v.date}</div>
+                        </div>
+                        <div class="version-card-meta">
+                            <span class="rank-badge rank-${v.rank.toLowerCase()}">${v.rankDetail}</span>
+                            <span style="font-size: 12px; color: var(--gray-600);">
+                                ${getStatusBadge(v.status)}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="version-card-body">
+                        <div class="version-card-row">
+                            <span class="version-card-label">👤 责任营销</span>
+                            <span class="version-card-value">${v.marketing}</span>
+                        </div>
+                        <div class="version-card-row">
+                            <span class="version-card-label">✏️ 责任策划</span>
+                            <span class="version-card-value">${v.planner}</span>
+                        </div>
+                        <div class="version-card-row">
+                            <span class="version-card-label">📊 整体进度</span>
+                            <span class="version-card-value">
+                                <div class="material-progress">
+                                    <div class="material-progress-bar">
+                                        <div class="material-progress-fill" style="width: ${v.progress}%"></div>
+                                    </div>
+                                    <div class="material-progress-text">${v.progress}%</div>
+                                </div>
+                            </span>
+                        </div>
+                        ${Object.keys(v.materials).map(stage => `
+                            <div class="version-card-row">
+                                <span class="version-card-label">🎨 ${stage}</span>
+                                <span class="version-card-value">
+                                    ${v.materials[stage].completed}/${v.materials[stage].total}
+                                </span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="version-card-footer">
+                        <button class="btn btn-small" onclick="event.stopPropagation(); editVersion(${v.id})">
+                            ✏️ 编辑
+                        </button>
+                        <button class="btn btn-small btn-secondary" onclick="event.stopPropagation(); viewMaterials(${v.id})">
+                            🎨 素材
+                        </button>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        // 关闭模态框
+        // ==================== 渲染列表视图 ====================
+        function renderListView() {
+            const container = document.getElementById('list-view');
+            const filteredVersions = getFilteredVersions();
+
+            container.innerHTML = filteredVersions.map(v => `
+                <div class="version-list-item" onclick="viewVersionDetail(${v.id})">
+                    <div class="version-list-header">
+                        <div class="version-list-title">${v.name}</div>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <span class="rank-badge rank-${v.rank.toLowerCase()}">${v.rankDetail}</span>
+                            ${getStatusBadge(v.status)}
+                            <span class="version-card-date">${v.date}</span>
+                        </div>
+                    </div>
+                    <div class="version-list-meta">
+                        <div class="version-list-meta-item">
+                            <span class="version-list-meta-label">👤 责任营销:</span>
+                            <span class="version-list-meta-value">${v.marketing}</span>
+                        </div>
+                        <div class="version-list-meta-item">
+                            <span class="version-list-meta-label">✏️ 责任策划:</span>
+                            <span class="version-list-meta-value">${v.planner}</span>
+                        </div>
+                        <div class="version-list-meta-item">
+                            <span class="version-list-meta-label">📊 整体进度:</span>
+                            <div class="material-progress" style="flex: 1;">
+                                <div class="material-progress-bar">
+                                    <div class="material-progress-fill" style="width: ${v.progress}%"></div>
+                                </div>
+                                <div class="material-progress-text">${v.progress}%</div>
+                            </div>
+                        </div>
+                        ${Object.keys(v.materials).map(stage => `
+                            <div class="version-list-meta-item">
+                                <span class="version-list-meta-label">🎨 ${stage}:</span>
+                                <span class="version-list-meta-value">
+                                    ${v.materials[stage].completed}/${v.materials[stage].total}
+                                </span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ==================== 渲染甘特图 ====================
+        function renderGanttView() {
+            const table = document.getElementById('gantt-table');
+            const filteredVersions = getFilteredVersions();
+
+            // 计算时间范围
+            const dates = filteredVersions.map(v => new Date(v.date));
+            const minDate = new Date(Math.min(...dates));
+            const maxDate = new Date(Math.max(...dates));
+
+            // 生成月份表头
+            const months = [];
+            let currentDate = new Date(minDate.getFullYear(), minDate.getMonth(), 1);
+            while (currentDate <= maxDate) {
+                months.push({
+                    year: currentDate.getFullYear(),
+                    month: currentDate.getMonth() + 1,
+                    name: `${currentDate.getFullYear()}年${currentDate.getMonth() + 1}月`
+                });
+                currentDate.setMonth(currentDate.getMonth() + 1);
+            }
+
+            // 渲染表格
+            table.innerHTML = `
+                <thead>
+                    <tr>
+                        <th style="min-width: 280px;">版本名称</th>
+                        <th style="min-width: 100px;">定级</th>
+                        <th style="min-width: 120px;">责任营销</th>
+                        <th style="min-width: 140px;">责任策划</th>
+                        <th style="min-width: 100px;">进度</th>
+                        <th style="min-width: 1000px;">时间线</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${filteredVersions.map(v => {
+                        const versionDate = new Date(v.date);
+                        const daysDiff = Math.floor((versionDate - minDate) / (1000 * 60 * 60 * 24));
+                        const totalDays = Math.floor((maxDate - minDate) / (1000 * 60 * 60 * 24)) + 30;
+                        const leftPercent = (daysDiff / totalDays) * 100;
+                        const widthPercent = 8; // 固定宽度
+
+                        return `
+                            <tr>
+                                <td class="gantt-version-name">${v.name}</td>
+                                <td>
+                                    <span class="rank-badge rank-${v.rank.toLowerCase()}">${v.rank}</span>
+                                </td>
+                                <td>${v.marketing}</td>
+                                <td>${v.planner}</td>
+                                <td>
+                                    <div class="material-progress">
+                                        <div class="material-progress-text">${v.progress}%</div>
+                                    </div>
+                                </td>
+                                <td class="gantt-timeline">
+                                    <div class="progress-bar-wrapper">
+                                        <div class="progress-bar progress-bar-${v.rank.toLowerCase()}"
+                                             style="left: ${leftPercent}%; width: ${widthPercent}%;"
+                                             onclick="editVersionProgress(${v.id})"
+                                             title="${v.name}\n上线时间: ${v.date}\n进度: ${v.progress}%">
+                                            ${v.date.substring(5)}
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('')}
+                </tbody>
+            `;
+        }
+
+        // ==================== 渲染模板列表 ====================
+        function renderTemplates() {
+            const container = document.getElementById('template-list');
+
+            container.innerHTML = templates.map(t => {
+                const totalMaterials = Object.values(t.materials).reduce((sum, count) => sum + count, 0);
+
+                return `
+                    <div class="template-item" onclick="selectTemplate(${t.id})">
+                        <div class="template-name">
+                            <span class="rank-badge rank-${t.rank.toLowerCase()}">${t.rank}</span>
+                            ${t.name}
+                        </div>
+                        <div class="template-desc">${t.desc}</div>
+                        <div class="template-materials">
+                            📦 共 ${totalMaterials} 个素材
+                        </div>
+                        <div style="margin-top: 12px; display: flex; gap: 8px;">
+                            <button class="btn btn-small" onclick="event.stopPropagation(); editTemplate(${t.id})">
+                                ✏️ 编辑
+                            </button>
+                            <button class="btn btn-small btn-secondary" onclick="event.stopPropagation(); useTemplate(${t.id})">
+                                ✨ 使用
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ==================== 工具函数 ====================
+        function getFilteredVersions() {
+            let filtered = [...versions];
+
+            // 时间筛选
+            const timeFilter = document.getElementById('timeFilter')?.value || 'all';
+            if (timeFilter !== 'all') {
+                // 实现时间筛选逻辑
+            }
+
+            // 定级筛选
+            const rankFilter = document.getElementById('rankFilter')?.value || 'all';
+            if (rankFilter !== 'all') {
+                filtered = filtered.filter(v => v.rank === rankFilter);
+            }
+
+            // 状态筛选
+            const statusFilter = document.getElementById('statusFilter')?.value || 'all';
+            if (statusFilter !== 'all') {
+                filtered = filtered.filter(v => v.status === statusFilter);
+            }
+
+            // 搜索筛选
+            const searchInput = document.getElementById('searchInput')?.value || '';
+            if (searchInput) {
+                filtered = filtered.filter(v => 
+                    v.name.toLowerCase().includes(searchInput.toLowerCase())
+                );
+            }
+
+            return filtered;
+        }
+
+        function getStatusBadge(status) {
+            const statusMap = {
+                'planning': { text: '策划中', color: 'var(--info)' },
+                'production': { text: '制作中', color: 'var(--warning)' },
+                'review': { text: '审核中', color: 'var(--purple)' },
+                'completed': { text: '已完成', color: 'var(--success)' }
+            };
+
+            const s = statusMap[status] || statusMap['planning'];
+            return `<span style="background: ${s.color}; color: white; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700;">${s.text}</span>`;
+        }
+
+        function filterData() {
+            if (currentView === 'card') {
+                renderCardView();
+            } else if (currentView === 'list') {
+                renderListView();
+            } else if (currentView === 'gantt') {
+                renderGanttView();
+            }
+        }
+
+        // ==================== 模态框操作 ====================
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
         function closeModal(modalId) {
             document.getElementById(modalId).classList.remove('active');
         }
 
-        // 保存素材
-        function saveMaterial() {
-            const material = {
-                id: Date.now(),
-                name: document.getElementById('materialName').value,
-                version: document.getElementById('materialVersion').value,
-                type: document.getElementById('materialType').value,
-                owner: document.getElementById('materialOwner').value,
-                startDate: document.getElementById('materialStartDate').value,
-                endDate: document.getElementById('materialEndDate').value,
-                status: '未开始'
-            };
-
-            if (!material.name) {
-                alert('请输入素材名称');
-                return;
-            }
-
-            materials.push(material);
-            closeModal('addMaterialModal');
-            updateAllViews();
-            
-            // 清空表单
-            document.getElementById('materialName').value = '';
-            document.getElementById('materialVersion').value = '';
-            document.getElementById('materialOwner').value = '';
-            document.getElementById('materialStartDate').value = '';
-            document.getElementById('materialEndDate').value = '';
-        }
-
-        // 更新所有视图
-        function updateAllViews() {
-            updateGanttChart();
-            updateStats();
-        }
-
-        // 更新甘特图
-        function updateGanttChart() {
-            const tbody = document.getElementById('ganttBody');
-            
-            if (materials.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="7" style="text-align: center; padding: 40px; color: #999;">
-                            暂无数据，请点击"新建素材"添加
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-
-            tbody.innerHTML = materials.map(m => `
-                <tr>
-                    <td><strong>${m.name}</strong></td>
-                    <td>${m.version || '-'}</td>
-                    <td>${m.type}</td>
-                    <td>${m.owner || '-'}</td>
-                    <td><span style="padding: 4px 8px; border-radius: 4px; background: #e3f2fd; color: #1976d2; font-size: 11px;">${m.status}</span></td>
-                    <td>${m.startDate || '-'} ~ ${m.endDate || '-'}</td>
-                    <td>
-                        <button class="btn btn-small" onclick="editMaterial(${m.id})">编辑</button>
-                        <button class="btn btn-small btn-danger" onclick="deleteMaterial(${m.id})">删除</button>
-                    </td>
-                </tr>
+        function openCreateVersionModal() {
+            // 渲染素材类型选择
+            const container = document.getElementById('material-types');
+            container.innerHTML = materialTypes.map(mt => `
+                <div class="material-type-item" data-id="${mt.id}">
+                    <div class="material-type-name">${mt.name}</div>
+                    <div class="material-type-count">
+                        <input type="number" value="${mt.defaultCount}" min="0" 
+                               id="material-${mt.id}" class="material-type-count">
+                        <span class="material-type-count-label">个</span>
+                    </div>
+                </div>
             `).join('');
+
+            openModal('version-modal');
         }
 
-        // 更新统计
-        function updateStats() {
-            const total = materials.length;
-            const inProgress = materials.filter(m => m.status === '进行中').length;
-            const completed = materials.filter(m => m.status === '已完成').length;
-            const notStarted = materials.filter(m => m.status === '未开始').length;
+        function openTemplateModal() {
+            // 渲染模板选择列表
+            const container = document.getElementById('template-select-list');
+            container.innerHTML = templates.map(t => {
+                const totalMaterials = Object.values(t.materials).reduce((sum, count) => sum + count, 0);
 
-            const statCards = document.querySelectorAll('.stat-card-value');
-            statCards[0].textContent = total;
-            statCards[1].textContent = inProgress;
-            statCards[2].textContent = completed;
-            statCards[3].textContent = notStarted;
+                return `
+                    <div class="template-item ${selectedTemplate === t.id ? 'selected' : ''}" 
+                         onclick="selectedTemplate = ${t.id}; renderTemplateSelectList();">
+                        <div class="template-name">
+                            <span class="rank-badge rank-${t.rank.toLowerCase()}">${t.rank}</span>
+                            ${t.name}
+                        </div>
+                        <div class="template-desc">${t.desc}</div>
+                        <div class="template-materials">📦 共 ${totalMaterials} 个素材</div>
+                    </div>
+                `;
+            }).join('');
+
+            openModal('template-select-modal');
         }
 
-        // 编辑素材
-        function editMaterial(id) {
-            alert('编辑功能开发中...');
+        function renderTemplateSelectList() {
+            openTemplateModal();
         }
 
-        // 删除素材
-        function deleteMaterial(id) {
-            if (confirm('确定要删除这个素材吗？')) {
-                materials = materials.filter(m => m.id !== id);
-                updateAllViews();
+        function applyTemplate() {
+            if (!selectedTemplate) {
+                alert('请先选择一个模板');
+                return;
+            }
+
+            const template = templates.find(t => t.id === selectedTemplate);
+            if (template) {
+                // 应用模板到新版本表单
+                closeModal('template-select-modal');
+                openCreateVersionModal();
+
+                // 填充素材数量
+                Object.keys(template.materials).forEach(key => {
+                    const input = document.getElementById(`material-${key}`);
+                    if (input) {
+                        input.value = template.materials[key];
+                    }
+                });
+
+                // 设置定级
+                document.getElementById('version-rank').value = template.rank;
             }
         }
 
-        // 点击模态框外部关闭
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.classList.remove('active');
-            }
+        // ==================== 占位函数 ====================
+        function viewVersionDetail(id) {
+            console.log('查看版本详情:', id);
         }
 
-        // 初始化
-        updateAllViews();
+        function editVersion(id) {
+            console.log('编辑版本:', id);
+        }
+
+        function viewMaterials(id) {
+            console.log('查看素材:', id);
+        }
+
+        function editVersionProgress(id) {
+            console.log('编辑进度:', id);
+        }
+
+        function saveVersion() {
+            console.log('保存版本');
+            closeModal('version-modal');
+        }
+
+        function selectTemplate(id) {
+            selectedTemplate = id;
+        }
+
+        function editTemplate(id) {
+            console.log('编辑模板:', id);
+        }
+
+        function useTemplate(id) {
+            selectedTemplate = id;
+            applyTemplate();
+        }
+
+        function openCreateTemplateModal() {
+            console.log('新建模板');
+        }
+
+        function renderVersionsPage() {
+            console.log('渲染版本管理页');
+        }
+
+        function exportData() {
+            console.log('导出数据');
+        }
+
+        function openSettings() {
+            console.log('打开设置');
+        }
+
+        function zoomGantt(type) {
+            console.log('缩放甘特图:', type);
+        }
     </script>
 </body>
 </html>
